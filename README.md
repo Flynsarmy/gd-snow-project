@@ -3,3 +3,6 @@
 Raises snow up based on terrain vertex colours, then stomps it back down under a character's feet as they mvoe around.
 
 Taken mostly from [https://www.youtube.com/watch?v=BXo97H55EhA](this video), adapted for Godot 4.7
+
+https://github.com/user-attachments/assets/9c3a15a1-3f1c-46fb-aae9-83ce30614bed
+
