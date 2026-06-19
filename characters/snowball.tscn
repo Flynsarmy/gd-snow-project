@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://nymjjbexuind"]
+
+[ext_resource type="Script" uid="uid://bnvbffj4n0ql0" path="res://characters/snowball.gd" id="1_2kdh0"]
+[ext_resource type="Texture2D" uid="uid://djll3egsq33uv" path="res://textures/snow/Snow010A_1K-PNG_Color.png" id="1_c0d5k"]
+[ext_resource type="Texture2D" uid="uid://clv4haekx5k2h" path="res://textures/snow/Snow010A_1K-PNG_Displacement.png" id="2_v0w88"]
+[ext_resource type="Texture2D" uid="uid://dlwsir4mc68bq" path="res://textures/snow/Snow010A_1K-PNG_NormalGL.png" id="3_2kdh0"]
+[ext_resource type="Texture2D" uid="uid://bs03b6sa3t3co" path="res://textures/snow/Snow010A_1K-PNG_Roughness.png" id="4_qcm20"]
+[ext_resource type="PackedScene" uid="uid://c4ist83vmlojs" path="res://components/third_person_camera/third_person_camera.tscn" id="5_v0w88"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3b25"]
+albedo_texture = ExtResource("1_c0d5k")
+roughness_texture = ExtResource("4_qcm20")
+normal_enabled = true
+normal_texture = ExtResource("3_2kdh0")
+heightmap_enabled = true
+heightmap_texture = ExtResource("2_v0w88")
+
+[sub_resource type="SphereMesh" id="SphereMesh_wpt26"]
+material = SubResource("StandardMaterial3D_r3b25")
+radial_segments = 32
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2qbtr"]
+
+[node name="Snowball" type="CharacterBody3D" unique_id=1678493903]
+script = ExtResource("1_2kdh0")
+
+[node name="Visuals" type="MeshInstance3D" parent="." unique_id=123199692]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+mesh = SubResource("SphereMesh_wpt26")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=607503400]
+shape = SubResource("SphereShape3D_2qbtr")
+
+[node name="ThirdPersonCamera" parent="." unique_id=712334766 instance=ExtResource("5_v0w88")]
+
+[node name="SpringArm3D" parent="ThirdPersonCamera" index="0"]
+spring_length = 6.0
+
+[editable path="ThirdPersonCamera"]

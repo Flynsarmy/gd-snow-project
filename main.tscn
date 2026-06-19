@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://cwth2xhuej4pl"]
+
+[ext_resource type="PackedScene" uid="uid://djnqs4o3ay3r8" path="res://landscape.glb" id="1_5vw27"]
+[ext_resource type="Script" uid="uid://ckns1clthvjas" path="res://landscape.gd" id="2_efxa6"]
+[ext_resource type="Shader" uid="uid://sldijikxr2en" path="res://materials/M_Snow.gdshader" id="2_kek77"]
+[ext_resource type="Texture2D" uid="uid://cesm1pr08ogk0" path="res://textures/ground/Ground103_1K-PNG_Color.png" id="3_4c57u"]
+[ext_resource type="Texture2D" uid="uid://bv63qudv6ne0c" path="res://textures/ground/Ground103_1K-PNG_NormalGL.png" id="4_efxa6"]
+[ext_resource type="Texture2D" uid="uid://dkhhhpdx0abki" path="res://textures/ground/Ground103_1K-PNG_Roughness.png" id="5_dg77c"]
+[ext_resource type="Texture2D" uid="uid://djll3egsq33uv" path="res://textures/snow/Snow010A_1K-PNG_Color.png" id="6_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://dlwsir4mc68bq" path="res://textures/snow/Snow010A_1K-PNG_NormalGL.png" id="7_w48qg"]
+[ext_resource type="Texture2D" uid="uid://bs03b6sa3t3co" path="res://textures/snow/Snow010A_1K-PNG_Roughness.png" id="8_vivmo"]
+[ext_resource type="Shape3D" uid="uid://ckyngiwwdsfuj" path="res://landscape_collision.res" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://nymjjbexuind" path="res://characters/snowball.tscn" id="10_4c57u"]
+[ext_resource type="Texture2D" uid="uid://f1ptpkiwlc5j" path="res://textures/grit.jpg" id="13_w48qg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4c57u"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_efxa6"]
+sky_material = SubResource("ProceduralSkyMaterial_4c57u")
+
+[sub_resource type="Environment" id="Environment_dg77c"]
+background_mode = 2
+sky = SubResource("Sky_efxa6")
+glow_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_vivmo"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pshpp"]
+gradient = SubResource("Gradient_vivmo")
+width = 32
+height = 32
+fill_from = Vector2(0, 0.07439025)
+fill_to = Vector2(0, 0.95)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2cqfq"]
+render_priority = 0
+shader = ExtResource("2_kek77")
+shader_parameter/snow_albedo = ExtResource("6_ycdy4")
+shader_parameter/snow_normal = ExtResource("7_w48qg")
+shader_parameter/snow_roughness = ExtResource("8_vivmo")
+shader_parameter/dirt_albedo = ExtResource("3_4c57u")
+shader_parameter/dirt_normal = ExtResource("4_efxa6")
+shader_parameter/dirt_roughness = ExtResource("5_dg77c")
+shader_parameter/displacement_grit = ExtResource("13_w48qg")
+shader_parameter/displacement_gradient = SubResource("GradientTexture2D_pshpp")
+shader_parameter/uv_scale = 1.0
+shader_parameter/snow_height = 0.6
+shader_parameter/mask_resolution = 128.0
+shader_parameter/normal_strength = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_wpt26"]
+size = Vector3(3, 3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wpt26"]
+size = Vector3(32, 10, 1)
+
+[node name="Node3D" type="Node3D" unique_id=1761860008]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1372770134]
+environment = SubResource("Environment_dg77c")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=141466055]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="landscape" parent="." unique_id=730067629 instance=ExtResource("1_5vw27")]
+script = ExtResource("2_efxa6")
+
+[node name="Plane" parent="landscape" index="0" unique_id=662970562]
+surface_material_override/0 = SubResource("ShaderMaterial_2cqfq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="landscape/Plane" index="0" unique_id=708257502]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="landscape/Plane/StaticBody3D" unique_id=129613152]
+shape = ExtResource("9_kek77")
+
+[node name="Snowball" parent="." unique_id=1678493903 instance=ExtResource("10_4c57u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9575292, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=71478352]
+
+[node name="DisplacementTex" type="TextureRect" parent="CanvasLayer" unique_id=1664311652]
+offset_right = 300.0
+offset_bottom = 300.0
+expand_mode = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=251637371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.597766, 1.5026226, -13.844435)
+mesh = SubResource("BoxMesh_wpt26")
+
+[node name="Bounds" type="StaticBody3D" parent="." unique_id=637995770]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds" unique_id=2014736615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -16.5)
+shape = SubResource("BoxShape3D_wpt26")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Bounds" unique_id=1366800927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 16.5)
+shape = SubResource("BoxShape3D_wpt26")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Bounds" unique_id=1522469878]
+transform = Transform3D(0, -1.1313342e-08, 1.0000001, -1.4894289e-09, 1, 1.13133405e-08, -1.0000001, -1.4894304e-09, 0, 16.5, 2, 0)
+shape = SubResource("BoxShape3D_wpt26")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Bounds" unique_id=559667099]
+transform = Transform3D(0, -1.1313342e-08, 1.0000001, -1.4894289e-09, 1, 1.13133405e-08, -1.0000001, -1.4894304e-09, 0, -16.5, 2, 0)
+shape = SubResource("BoxShape3D_wpt26")
+
+[editable path="landscape"]

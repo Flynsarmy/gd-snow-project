@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4ist83vmlojs"]
+
+[ext_resource type="Script" uid="uid://bvjgku4dwawxh" path="res://components/third_person_camera/third_person_camera.gd" id="1_kjyns"]
+
+[node name="ThirdPersonCamera" type="Node3D"]
+script = ExtResource("1_kjyns")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.945938, 0.324347, 0, -0.324347, 0.945938, 0, 0, 0)
+current = true
